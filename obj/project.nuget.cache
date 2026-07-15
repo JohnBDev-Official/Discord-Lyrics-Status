@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "RcHXrHUNtmg=",
+  "dgSpecHash": "zC6eklUH77w=",
   "success": true,
   "projectFilePath": "D:\\vs_source\\Discord Lyrics Status\\Discord Lyrics Status.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\JohnB\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.19041.57\\microsoft.windows.sdk.net.ref.10.0.19041.57.nupkg.sha512"
+  ],
   "logs": []
 }

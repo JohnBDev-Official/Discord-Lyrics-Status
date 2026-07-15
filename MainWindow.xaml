@@ -7,6 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-
+        <TextBlock>
+            Discord Lyrics Status by JohnB [BETA 1.0]
+        </TextBlock>
+        <Button
+            Width="50"
+            Height="20"
+            Click="DoItButton_Click">
+            Do it
+        </Button>
     </Grid>
 </Window>
