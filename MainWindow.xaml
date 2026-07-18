@@ -7,14 +7,37 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock>
+        <TextBlock
+            FontWeight="Bold"
+            FontSize="28"
+            Margin="5,0,0,0">
             Discord Lyrics Status by JohnB [BETA 1.0]
         </TextBlock>
-        <Button
+        <Button x:Name="DoItButton"
             Width="50"
             Height="20"
+            Visibility="Visible"
             Click="DoItButton_Click">
             Do it
         </Button>
+        <Button x:Name="StopDoingItButton"
+            Width="80"
+            Height="20"
+            Visibility="Hidden"
+            Click="StopDoingItButton_Click">
+            Stop doing it
+        </Button>
+        <StackPanel
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal">
+            <TextBlock
+                VerticalAlignment="Center">
+                Current Lyric:
+            </TextBlock>
+            <TextBlock x:Name="CurrentLyricText"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Margin="10"/>
+        </StackPanel>
     </Grid>
 </Window>

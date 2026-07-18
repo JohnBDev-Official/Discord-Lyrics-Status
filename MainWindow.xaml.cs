@@ -21,17 +21,88 @@ namespace Discord_Lyrics_Status;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly DiscordPresenceService _discordPresence =
+        new("1527876392929333278");
+    
     public MainWindow()
     {
         InitializeComponent();
     }
 
-    private async void DoItButton_Click(object sender, RoutedEventArgs e)
+    private CancellationTokenSource? _loopCancellation;
+
+    private async Task StartLoopAsync(CancellationToken cancellationToken)
     {
-        await StartLoopAsync();
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            MediaInfo? media = await WindowsMediaReader.GetCurrentMediaAsync();
+
+            if (media is not null)
+            {
+                using var httpClient = new HttpClient();
+                var lyricsClient = new LrcLibClient(httpClient);
+
+                LrcLibResult? result = await lyricsClient.GetLyricsAsync(
+                    media.Title,
+                    media.Artist,
+                    album: null,
+                    media.Duration);
+
+                IReadOnlyList<LyricLine> lines =
+                    LrcParser.Parse(result?.SyncedLyrics);
+
+                LyricLine? currentLine =
+                    LrcParser.GetCurrentLine(lines, media.Position);
+
+                Console.WriteLine(currentLine?.Text ?? "No lyric available");
+                CurrentLyricText.Text = currentLine?.Text;
+                
+                if (currentLine is not null &&
+                    !string.IsNullOrWhiteSpace(currentLine.Text))
+                {
+                    await _discordPresence.UpdateAsync(
+                        media.Title,
+                        media.Artist,
+                        currentLine.Text);
+                }
+            }
+
+            await Task.Delay(1000, cancellationToken);
+        }
     }
 
-    private async Task StartLoopAsync()
+    private async void DoItButton_Click(object sender, RoutedEventArgs e)
+    {
+        DoItButton.Visibility = Visibility.Hidden;
+        StopDoingItButton.Visibility = Visibility.Visible;
+        
+        _loopCancellation = new CancellationTokenSource();
+        
+        try
+        {
+            await StartLoopAsync(_loopCancellation.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            // Expected when stopped or restarted.
+        }
+    }
+
+    private async void StopDoingItButton_Click(object sender, RoutedEventArgs e)
+    {
+        DoItButton.Visibility = Visibility.Visible;
+        StopDoingItButton.Visibility = Visibility.Hidden;
+        
+        _loopCancellation?.Cancel();
+    }
+    
+    protected override void OnClosed(EventArgs e)
+    {
+        _discordPresence.Dispose();
+        base.OnClosed(e);
+    }
+
+    /*private async Task StartLoopAsync()
     {
         while (true)
         {
@@ -59,5 +130,5 @@ public partial class MainWindow : Window
 
             await Task.Delay(1000);
         }
-    }
+    }*/
 }

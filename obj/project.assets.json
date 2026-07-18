@@ -1,11 +1,73 @@
 {
   "version": 3,
   "targets": {
-    "net10.0-windows10.0.19041": {}
+    "net10.0-windows10.0.19041": {
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "DiscordRPC/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "bin/placeholder/DiscordRPC.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DiscordRPC.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
+    "DiscordRPC/1.0.0": {
+      "type": "project",
+      "path": "libs/discord-rpc-csharp/DiscordRPC/DiscordRPC.csproj",
+      "msbuildProject": "libs/discord-rpc-csharp/DiscordRPC/DiscordRPC.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net10.0-windows10.0.19041": []
+    "net10.0-windows10.0.19041": [
+      "DiscordRPC >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\JohnB\\.nuget\\packages\\": {}
@@ -33,7 +95,11 @@
       "frameworks": {
         "net10.0-windows10.0.19041": {
           "targetAlias": "net10.0-windows10.0.19041.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "D:\\vs_source\\Discord Lyrics Status\\libs\\discord-rpc-csharp\\DiscordRPC\\DiscordRPC.csproj": {
+              "projectPath": "D:\\vs_source\\Discord Lyrics Status\\libs\\discord-rpc-csharp\\DiscordRPC\\DiscordRPC.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
