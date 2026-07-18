@@ -11,7 +11,7 @@
             FontWeight="Bold"
             FontSize="28"
             Margin="5,0,0,0">
-            Discord Lyrics Status by JohnB [BETA 1.0]
+            Discord Lyrics Status by JohnB [BETA 0.1.0]
         </TextBlock>
         <Button x:Name="DoItButton"
             Width="50"
