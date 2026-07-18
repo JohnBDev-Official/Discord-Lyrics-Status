@@ -1,0 +1,63 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore "Discord Lyrics Status.csproj"
+
+      - name: Build
+        run: dotnet build "Discord Lyrics Status.csproj" --configuration Release --no-restore
+
+      - name: Publish Windows x64
+        run: >
+          dotnet publish "Discord Lyrics Status.csproj"
+          --configuration Release
+          --runtime win-x64
+          --self-contained true
+          --no-restore
+          -p:PublishSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          --output publish/win-x64
+
+      - name: Create ZIP
+        shell: pwsh
+        run: Compress-Archive -Path "publish/win-x64/*" -DestinationPath "Discord-Lyrics-Status-win-x64.zip"
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Discord-Lyrics-Status-win-x64
+          path: Discord-Lyrics-Status-win-x64.zip
+
+      - name: Create GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v3
+        with:
+          files: Discord-Lyrics-Status-win-x64.zip
+          generate_release_notes: true
