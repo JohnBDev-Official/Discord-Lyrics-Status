@@ -1,0 +1,3 @@
+[submodule "libs/discord-rpc-csharp"]
+	path = libs/discord-rpc-csharp
+	url = https://github.com/Lachee/discord-rpc-csharp.git
